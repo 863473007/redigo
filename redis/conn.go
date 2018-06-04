@@ -301,6 +301,13 @@ func NewConn(netConn net.Conn, readTimeout, writeTimeout time.Duration) Conn {
 	}
 }
 
+func (c *conn) RemoteAddrStr() string {
+	if c.conn != nil {
+		return c.conn.RemoteAddr().String()
+	}
+	return ""
+}
+
 func (c *conn) Close() error {
 	c.mu.Lock()
 	err := c.err

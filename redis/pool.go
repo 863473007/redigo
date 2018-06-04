@@ -499,6 +499,11 @@ func (ac *activeConn) ReceiveWithTimeout(timeout time.Duration) (reply interface
 	return cwt.ReceiveWithTimeout(timeout)
 }
 
+func (pc *pooledConnection) RemoteAddrStr() string {
+	return pc.c.RemoteAddrStr()
+}
+
+
 type errorConn struct{ err error }
 
 func (ec errorConn) Do(string, ...interface{}) (interface{}, error) { return nil, ec.err }
@@ -511,6 +516,7 @@ func (ec errorConn) Close() error                                          { ret
 func (ec errorConn) Flush() error                                          { return ec.err }
 func (ec errorConn) Receive() (interface{}, error)                         { return nil, ec.err }
 func (ec errorConn) ReceiveWithTimeout(time.Duration) (interface{}, error) { return nil, ec.err }
+func (ec errorConn) RemoteAddrStr() string                                 { return "" }
 
 type idleList struct {
 	count       int
