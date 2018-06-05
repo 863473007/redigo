@@ -25,7 +25,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/gomodule/redigo/internal"
+	"github.com/AlexStocks/redigo/internal"
 )
 
 var (
@@ -101,7 +101,7 @@ var (
 //        return nil, err
 //      }
 //      return c, nil
-//    },
+//    }
 //  }
 //
 // Use the TestOnBorrow function to check the health of an idle connection
@@ -499,10 +499,9 @@ func (ac *activeConn) ReceiveWithTimeout(timeout time.Duration) (reply interface
 	return cwt.ReceiveWithTimeout(timeout)
 }
 
-func (pc *pooledConnection) RemoteAddrStr() string {
-	return pc.c.RemoteAddrStr()
+func (ac *activeConn) RemoteAddrStr() string {
+	return ac.pc.c.RemoteAddrStr()
 }
-
 
 type errorConn struct{ err error }
 

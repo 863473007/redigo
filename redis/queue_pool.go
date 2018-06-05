@@ -20,7 +20,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/absolute8511/redigo/internal"
+	"github.com/AlexStocks/redigo/internal"
 )
 
 type QueuePool struct {
@@ -217,17 +217,17 @@ func (pc *queuePooledConnection) IsConnected() bool {
 	if pc.c == nil {
 		return false
 	}
-	_, ok := pc.c.(errorConnection)
+	_, ok := pc.c.(errorConn)
 	return !ok
 }
 
 // just close conn without put to pool
 func (pc *queuePooledConnection) realClose() error {
 	c := pc.c
-	if _, ok := c.(errorConnection); ok {
+	if _, ok := c.(errorConn); ok {
 		return nil
 	}
-	pc.c = errorConnection{errConnClosed}
+	pc.c = errorConn{errConnClosed}
 	atomic.AddInt32(&pc.p.connCnt, -1)
 	return c.Close()
 }
@@ -235,7 +235,7 @@ func (pc *queuePooledConnection) realClose() error {
 // put conn to pool
 func (pc *queuePooledConnection) Close() error {
 	c := pc.c
-	if _, ok := c.(errorConnection); ok {
+	if _, ok := c.(errorConn); ok {
 		return nil
 	}
 

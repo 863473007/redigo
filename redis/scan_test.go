@@ -21,7 +21,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gomodule/redigo/redis"
+	"github.com/AlexStocks/redigo/redis"
 )
 
 type durationScan struct {
